@@ -7,27 +7,27 @@ import (
 
 // MemInfoData memory info data
 type MemInfoData struct {
-	total     float64
-	used      float64
-	percent   float64
-	container int
+	Total     float64
+	Used      float64
+	Percent   float64
+	Container int
 }
 
-// MemInfo read the memory info for container or not, with the special pid
+// MemInfo read the memory info for Container or not, with the special pid
 func MemInfo(container bool, pid int32) MemInfoData {
 	mid := MemInfoData{}
 
 	if container {
-		mid.container = 1
+		mid.Container = 1
 		memLimit, _ := readUint("/sys/fs/cgroup/memory/memory.limit_in_bytes")
-		mid.total = float64(memLimit)
+		mid.Total = float64(memLimit)
 
 		p, err := process.NewProcess(pid)
 		if err == nil {
 			mif, err := p.MemoryInfo()
 			if err == nil {
-				mid.percent = float64(mif.RSS) * 100 / mid.total
-				mid.used = float64(mif.RSS)
+				mid.Percent = float64(mif.RSS) * 100 / mid.Total
+				mid.Used = float64(mif.RSS)
 			}
 		}
 	} else {
@@ -35,12 +35,12 @@ func MemInfo(container bool, pid int32) MemInfoData {
 		if err == nil {
 			vm, err := mem.VirtualMemory()
 			if err == nil {
-				mid.total = float64(vm.Total)
+				mid.Total = float64(vm.Total)
 			}
 
 			mp, _ := p.MemoryPercent()
-			mid.percent = float64(mp)
-			mid.used = mid.total * float64(mp) / 100
+			mid.Percent = float64(mp)
+			mid.Used = mid.Total * float64(mp) / 100
 		}
 	}
 	return mid

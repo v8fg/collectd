@@ -15,21 +15,21 @@ const defaultContainerPid int32 = 1
 // devices, memory,pids or name=systemd
 var cgroupKeyParse = [...]string{"devices", "memory", "pids"}
 
-// RunningInDockerContainer determine if it is running in the container environment.
+// RunningInDockerContainer determine if it is running in the Container environment.
 // Simply determine by the ways: 1: .dockerenv; 2: cgroups(normal pid=1 in docker)
 func RunningInDockerContainer() bool {
 	return runningInDockerContainer(defaultContainerPid)
 }
 
-// RunningInDockerContainerPid determine if the process with pid is running in the container environment.
+// RunningInDockerContainerPid determine if the process with pid is running in the Container environment.
 // Simply determine by the ways: 1: .dockerenv; 2: cgroups(normal pid=1 in docker)
 func RunningInDockerContainerPid(pid int32) bool {
 	return runningInDockerContainer(pid)
 }
 
 func runningInDockerContainer(pid int32) bool {
-	// docker creates a .dockerenv file at the root of the directory tree inside the container.
-	// if this file exists then the viewer is running from inside a container so return true
+	// docker creates a .dockerenv file at the root of the directory tree inside the Container.
+	// if this file exists then the viewer is running from inside a Container so return true
 	if _, err := os.Stat("/.dockerenv"); err == nil {
 		return true
 	}

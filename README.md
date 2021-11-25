@@ -2,6 +2,10 @@
 
 Mainly used to collect cpu, memory metrics correctly for container, k8s and non container environment.
 
+## Usage
+
+`go get -u github.com/v8fg/collectd`
+
 ## Feature
 
 |metrics|container|linux|
