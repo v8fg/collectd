@@ -60,7 +60,7 @@ func containsContainerKeyword(cg string) bool {
 }
 
 func parseCgroups(pid int32) map[string]string {
-	cgs, err := ParseCgroupFile(fmt.Sprintf("proc/%d/cgroup", pid))
+	cgs, err := ParseCgroupFile(fmt.Sprintf("/proc/%d/cgroup", pid))
 	if err != nil {
 		return nil
 	}
